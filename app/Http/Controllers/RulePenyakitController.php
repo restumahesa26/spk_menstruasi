@@ -1,0 +1,161 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Controllers\Controller;
+use App\Models\Gejala;
+use App\Models\Penyakit;
+use App\Models\RulePenyakit;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use RealRashid\SweetAlert\Facades\Alert;
+
+class RulePenyakitController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        $items =  Penyakit::orderBy('kode', 'ASC')->get();
+
+        return view('pages.rule-penyakit.index', compact('items'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        $data = Penyakit::findOrFail($id);
+        $gejala = Gejala::orderBy('kode', 'ASC')->get();
+        $penyakit = Penyakit::orderBy('kode', 'ASC')->get();
+        $gejalaPenyakit = $data->gejalas();
+        $gejalaId = $gejalaPenyakit->pluck('gejala_id')->toArray();
+
+        return view('pages.rule-penyakit.detail', compact('data', 'gejala', 'penyakit', 'gejalaPenyakit', 'gejalaId'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        $input = $request->all();
+        // $penyakit_list = RulePenyakit::where(['penyakit_id' => $id])->get();
+
+        // $gejala_list = [];
+        // $enabled = 0;
+        // $disabled = 0;
+        // $changed = 0;
+
+        // RulePenyakit::where('penyakit_id', $id)->delete();
+
+        // foreach($input as $key => $value) {
+        //     if(str_contains($key, 'gejala')) {
+        //         $gejala_id = explode('-', $key)[1];
+
+        //         $gejala_penyakit = RulePenyakit::where(['penyakit_id' => $id, 'gejala_id' => $gejala_id]);
+
+        //         if(count($gejala_penyakit->get()) == 0) {
+        //             RulePenyakit::insert([
+        //                     'penyakit_id' => $id,
+        //                     'gejala_id' => $gejala_id,
+        //                     'value_cf' => $value
+        //                 ]);
+        //         } else {
+        //             if($gejala_penyakit->first()->value_cf != $value) {
+        //                 $gejala_penyakit->update(['value_cf' => $value]);
+        //                 $changed++;
+        //             }
+        //         }
+
+        //         array_push($gejala_list, $gejala_id);
+        //         $enabled++;
+        //     }
+        // }
+
+
+        // foreach($penyakit_list as $penyakit) {
+        //     if(!in_array($penyakit->gejala_id, $gejala_list)) {
+        //         $data = RulePenyakit::where(['penyakit_id' => $id, 'gejala_id' => $penyakit->gejala_id])
+        //             ->first();
+
+        //         RulePenyakit::where('penyakit_id', $data->id)->delete();
+        //         $disabled++;
+        //     }
+        // }
+
+        $gejala = array();
+
+        $penyakitList = DB::table('gejala_penyakit')->where(['penyakit_id' => $id])->get();
+
+        foreach($input as $key => $value) {
+            if(str_contains($key, 'gejala')) {
+                $gejala_id = explode('-', $key)[1];
+
+                $gejala_penyakit = DB::table('gejala_penyakit')
+                ->where(['penyakit_id' => $id, 'gejala_id' => $gejala_id]);
+
+                if(count($gejala_penyakit->get()) == 0) {
+                    DB::table('gejala_penyakit')
+                        ->insert([
+                        'penyakit_id' => $id,
+                        'gejala_id' => $gejala_id,
+                        'value_cf' => $value
+                    ]);
+                } else {
+                    if($gejala_penyakit->first()->value_cf != $value) {
+                        $gejala_penyakit->update(['value_cf' => $value]);
+                    }
+                }
+                $gejala[] = $gejala_id;
+            }
+        }
+
+        foreach($penyakitList as $penyakit) {
+            if(!in_array($penyakit->gejala_id, $gejala)) {
+                $data = DB::table('gejala_penyakit')
+                    ->where(['penyakit_id' => $id, 'gejala_id' => $penyakit->gejala_id])
+                    ->first();
+
+                DB::table('gejala_penyakit')->delete($data->id);
+            }
+        }
+
+        Alert::toast('Data Rule Penyakit Berhasil Disimpan', 'success');
+        return redirect()->route('rule-penyakit.show', $id);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        //
+    }
+}
