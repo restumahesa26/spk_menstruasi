@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-6 collapse-brand">
                 <a href="{{ route('dashboard') }}">
-                    <img src="{{ url('backend/assets/img/brand/blue.png') }}">
+                    <img src="{{ url('logo.png') }}">
                 </a>
             </div>
             <div class="col-6 collapse-close">
@@ -59,6 +59,11 @@
         <li class="nav-item @if(Route::is('penyakit.*')) active @endif">
             <a class="nav-link @if(Route::is('penyakit.*')) active @endif" href="{{ route('penyakit.index') }}">
                 <i class="fa fa-map text-primary"></i> Penyakit
+            </a>
+        </li>
+        <li class="nav-item @if(Route::is('artikel.*')) active @endif">
+            <a class="nav-link @if(Route::is('artikel.*')) active @endif" href="{{ route('artikel.index') }}">
+                <i class="fa fa-newspaper text-primary"></i> Artikel
             </a>
         </li>
         @endif

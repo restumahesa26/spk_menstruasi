@@ -98,12 +98,22 @@
                         <div class="col-md-12">
                             <form action="{{ route('diagnosa.store') }}" method="post">
                                 @csrf
-                                @if (Auth::user()->role == 'admin' || Auth::user()->role == 'dokter')
-                            <div class="form-group">
-                                <label for=""><b><i class="fas fa-user mr-1"></i> Nama</b></label>
-                                <input type="text" class="form-control mb-3 w-50" name="nama" required>
-                            </div>
-                            @endif
+                                <div class="row">
+                                    @if (Auth::user()->role == 'admin' || Auth::user()->role == 'dokter')
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for=""><b><i class="fas fa-user mr-1"></i> Nama</b></label>
+                                            <input type="text" class="form-control mb-3 w-75" name="nama" required>
+                                        </div>
+                                    </div>
+                                    @endif
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for=""><b><i class="fas fa-address-card mr-1"></i> Usia</b></label>
+                                            <input type="number" class="form-control mb-3 w-75" name="usia" required>
+                                        </div>
+                                    </div>
+                                </div>
                             <p class="font-weight-bold">Pilih gejala yang sedang dirasakan.</p>
                             <label for=""><b><i class="fas fa-th mr-1"></i> Gejala-gejala</b></label>
                             @foreach($items as $key => $value)
@@ -121,7 +131,13 @@
                                         <div class="col-md-4">
                                             <select name="diagnosa[]" id=""
                                             class="form-control form-control-sm red-border font-weight-bold text-body">
-                                            <option value="{{ $value->id }}+-1">Pasti tidak</option>
+                                            <option value="" selected>Tidak</option>
+                                            <option value="{{ $value->id }}+0.2">Tidak Tahu</option>
+                                            <option value="{{ $value->id }}+0.4">Mungkin</option>
+                                            <option value="{{ $value->id }}+0.6">Kemungkinan Besar</option>
+                                            <option value="{{ $value->id }}+0.8">Hampir pasti</option>
+                                            <option value="{{ $value->id }}+1">Pasti</option>
+                                            {{-- <option value="{{ $value->id }}+-1">Pasti tidak</option>
                                             <option value="{{ $value->id }}+-0.8">Hampir pasti tidak</option>
                                             <option value="{{ $value->id }}+-0.6">Kemungkinan besar tidak</option>
                                             <option value="{{ $value->id }}+-0.4">Mungkin tidak</option>
@@ -129,7 +145,7 @@
                                             <option value="{{ $value->id }}+0.4">Mungkin</option>
                                             <option value="{{ $value->id }}+0.6">Sangat mungkin</option>
                                             <option value="{{ $value->id }}+0.8">Hampir pasti</option>
-                                            <option value="{{ $value->id }}+1">Pasti</option>
+                                            <option value="{{ $value->id }}+1">Pasti</option> --}}
                                         </select>
                                         </div>
                                     </div>

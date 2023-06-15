@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('rule_penyakit', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('gejala_id')->references('id')->on('gejala');
-            $table->foreignId('penyakit_id')->references('id')->on('penyakit');
-            $table->double('nilai_cf', 8, 2);
+            $table->foreignId('gejala_id')->references('id')->on('gejala')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('penyakit_id')->references('id')->on('penyakit')->onUpdate('cascade')->onDelete('cascade');
+            $table->double('nilai_mb', 4, 2);
+            $table->double('nilai_md', 4, 2);
+            $table->double('nilai_cf', 4, 2);
             $table->timestamps();
         });
     }

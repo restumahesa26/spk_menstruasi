@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->integer('gejala_id')->unsigned();
             $table->integer('penyakit_id')->unsigned();
+            $table->float('value_md')->nullable();
+            $table->float('value_mb')->nullable();
             $table->float('value_cf')->nullable();
             $table->timestamps();
         });

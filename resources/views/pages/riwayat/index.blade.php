@@ -94,52 +94,52 @@
                             <h3 class="mb-0">Riwayat Diagnosa</h3>
                         </div>
                     </div>
-                </div>
-                <div class="table-responsive">
-                    <!-- Projects table -->
-                    <table class="table align-items-center table-flush">
-                        <thead class="thead-light">
-                            <tr>
-                                <th scope="col">No</th>
-                                @if (Auth::user()->role == 'admin')
-                                <th scope="col">Nama</th>
-                                @endif
-                                <th scope="col">Penyakit Terdiagnosa</th>
-                                <th scope="col">Tanggal</th>
-                                <th scope="col">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($items as $item)
-                            <tr>
-                                <th scope="row">
-                                    {{ $loop->iteration }}
-                                </th>
-                                @if (Auth::user()->role == 'admin')
-                                <td>{{ $item->nama }}</td>
-                                @endif
-                                <td>
-                                    {{ unserialize($item->cf_max)[1] }} <b>(<span class="text-danger">{{ number_format(unserialize($item->cf_max)[0] * 100, 2) }}%</span>)</b>
-                                </td>
-                                <td>
-                                    {{ \Carbon\Carbon::parse($item->created_at)->translatedFormat('d F Y') }}
-                                </td>
-                                <td>
-                                    <a href="{{ asset("storage/downloads/$item->file_pdf") }}" target="_blank" class="btn btn-primary btn-sm">
-                                        <i class="fa fa-print"></i>
-                                    </a>
-                                    <a href="{{ route('riwayat-diagnosa.show', $item->id) }}" class="btn btn-info btn-sm">
-                                        <i class="fa fa-eye"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            @empty
-                            <tr class="text-center">
-                                <th colspan="5">--- Data Kosong ---</th>
-                            </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
+                    <div class="table-responsive mt-3">
+                        <!-- Projects table -->
+                        <table class="table align-items-center table-flush" id="table">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col">No</th>
+                                    @if (Auth::user()->role == 'admin')
+                                    <th scope="col">Nama</th>
+                                    @endif
+                                    <th scope="col">Penyakit Terdiagnosa</th>
+                                    <th scope="col">Tanggal</th>
+                                    <th scope="col">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($items as $item)
+                                <tr>
+                                    <th scope="row">
+                                        {{ $loop->iteration }}
+                                    </th>
+                                    @if (Auth::user()->role == 'admin')
+                                        <td>{{ $item->nama }}</td>
+                                    @endif
+                                    <td>
+                                        {{ unserialize($item->cf_max)[1] }} <b>(<span class="text-danger">{{ number_format(unserialize($item->cf_max)[0] * 100, 2) }}%</span>)</b>
+                                    </td>
+                                    <td>
+                                        {{ \Carbon\Carbon::parse($item->created_at)->translatedFormat('d F Y') }}
+                                    </td>
+                                    <td>
+                                        <a href="{{ asset("storage/downloads/$item->file_pdf") }}" target="_blank" class="btn btn-primary btn-sm">
+                                            <i class="fa fa-print"></i>
+                                        </a>
+                                        <a href="{{ route('riwayat-diagnosa.show', $item->id) }}" class="btn btn-info btn-sm">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                @empty
+                                <tr class="text-center">
+                                    <th colspan="5">--- Data Kosong ---</th>
+                                </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -147,3 +147,21 @@
     @include('includes.footer')
 </div>
 @endsection
+
+@if ($items->count() > 0)
+@push('addon-style')
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+@endpush
+
+@push('addon-script')
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#table').DataTable({
+            "orderable": false
+        });
+    });
+</script>
+@endpush
+@endif

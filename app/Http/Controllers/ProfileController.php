@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\RiwayatPenyakit;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -20,7 +21,13 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
-        return view('pages.profile');
+        if (Auth::user()->role == 'pengguna') {
+            $penyakit = RiwayatPenyakit::where('user_id', Auth::user()->id)->latest()->get();
+        } else {
+            $penyakit = NULL;
+        }
+
+        return view('pages.profile', compact('penyakit'));
     }
 
     /**
@@ -83,5 +90,30 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+    public function tambah_riwayat_penyakit(Request $request)
+    {
+        $request->validate([
+            'penyakit' => 'required|string|max:255'
+        ]);
+
+        RiwayatPenyakit::create([
+            'user_id' => Auth::user()->id,
+            'penyakit' => $request->penyakit
+        ]);
+
+        Alert::toast('Berhasil Tambah Riwayat Penyakit', 'success');
+        return redirect()->route('profile.edit');
+    }
+
+    public function hapus_riwayat_penyakit($id)
+    {
+        $item = RiwayatPenyakit::findOrFail($id);
+
+        $item->delete();
+
+        Alert::toast('Berhasil Hapus Riwayat Penyakit', 'success');
+        return redirect()->route('profile.edit');
     }
 }

@@ -171,50 +171,60 @@
                             </button>
                         </div>
                     </div>
-                </div>
-                <div class="table-responsive">
-                    <!-- Projects table -->
-                    <table class="table" id="table">
-                        <thead class="thead-light">
-                            <tr>
-                                <th scope="col">No</th>
-                                <th scope="col">Nama</th>
-                                <th scope="col">Username</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($items as $item)
-                            <tr>
-                                <th scope="row">
-                                    {{ $loop->iteration }}
-                                </th>
-                                <td>
-                                    {{ $item->nama }}
-                                </td>
-                                <td>
-                                    {{ $item->username }}
-                                </td>
-                                <td>
-                                    {{ $item->email }}
-                                </td>
-                                <td>
-                                    <a href="{{ route('data-pengguna.edit', $item->id) }}" class="btn btn-sm btn-primary"><i class="fa fa-pencil-alt"></i></a>
-                                    <form action="{{ route('data-pengguna.destroy', $item->id) }}" method="POST" class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger btn-hapus"><i class="fa fa-trash-alt"></i></button>
-                                    </form>
-                                </td>
-                            </tr>
-                            @empty
-                            <tr class="text-center">
-                                <th colspan="4">--- Data Kosong ---</th>
-                            </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
+                    <div class="table-responsive mt-3">
+                        <!-- Projects table -->
+                        <table class="table align-items-center table-flush" id="table">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col">No</th>
+                                    <th scope="col">Nama</th>
+                                    <th scope="col">Username</th>
+                                    <th scope="col">Riwayat Penyakit</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($items as $item)
+                                <tr>
+                                    <th scope="row">
+                                        {{ $loop->iteration }}
+                                    </th>
+                                    <td>
+                                        {{ $item->nama }}
+                                    </td>
+                                    <td>
+                                        {{ $item->username }}
+                                    </td>
+                                    <td>
+                                        <ul style="padding-left: 16px !important;">
+                                            @forelse ($item->riwayat_penyakits as $item2)
+                                                <li>{{ $item2->penyakit }}</li>
+                                            @empty
+                                                <li>Tidak Ada</li>
+                                            @endforelse
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        {{ $item->email }}
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('data-pengguna.edit', $item->id) }}" class="btn btn-sm btn-primary"><i class="fa fa-pencil-alt"></i></a>
+                                        <form action="{{ route('data-pengguna.destroy', $item->id) }}" method="POST" class="d-inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-danger btn-hapus"><i class="fa fa-trash-alt"></i></button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                @empty
+                                <tr class="text-center">
+                                    <th colspan="4">--- Data Kosong ---</th>
+                                </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -248,3 +258,21 @@
         });
     </script>
 @endpush
+
+@if ($items->count() > 0)
+@push('addon-style')
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+@endpush
+
+@push('addon-script')
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#table').DataTable({
+            "orderable": false
+        });
+    });
+</script>
+@endpush
+@endif

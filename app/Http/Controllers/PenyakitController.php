@@ -15,7 +15,7 @@ class PenyakitController extends Controller
      */
     public function index()
     {
-        $items = Penyakit::all();
+        $items = Penyakit::withCount('rule')->get();
 
         return view('pages.penyakit.index', compact('items'));
     }

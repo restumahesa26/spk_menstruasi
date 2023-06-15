@@ -23,6 +23,7 @@ class User extends Authenticatable
         'role',
         'email',
         'password',
+        'riwayat_penyakit'
     ];
 
     /**
@@ -43,4 +44,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function riwayat_penyakits()
+    {
+        return $this->hasMany(RiwayatPenyakit::class, 'user_id', 'id');
+    }
 }

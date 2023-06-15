@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ArtikelController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataAdminController;
 use App\Http\Controllers\DataDokterController;
@@ -36,6 +37,7 @@ Route::middleware(['auth'])
         Route::resource('data-admin', DataAdminController::class);
         Route::resource('data-dokter', DataDokterController::class);
         Route::resource('data-pengguna', DataPenggunaController::class);
+        Route::resource('artikel', ArtikelController::class);
         Route::get('/diagnosa', [DiagnosaController::class, 'index'])->name('diagnosa.index');
         Route::post('/diagnosa/store', [DiagnosaController::class, 'diagnosa'])->name('diagnosa.store');
         Route::get('/riwayat-diagnosa', [RiwayatController::class, 'index'])->name('riwayat-diagnosa.index');
@@ -44,6 +46,8 @@ Route::middleware(['auth'])
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::post('/profile/tambah-riwayat-penyakit', [ProfileController::class, 'tambah_riwayat_penyakit'])->name('profile.tambah-riwayat-penyakit');
+    Route::delete('/profile/hapus-riwayat-penyakit/{id}', [ProfileController::class, 'hapus_riwayat_penyakit'])->name('profile.hapus-riwayat-penyakit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });

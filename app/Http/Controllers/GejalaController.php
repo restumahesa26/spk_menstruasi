@@ -15,7 +15,7 @@ class GejalaController extends Controller
      */
     public function index()
     {
-        $items = Gejala::all();
+        $items = Gejala::withCount('penyakits')->get();
 
         return view('pages.gejala.index', compact('items'));
     }

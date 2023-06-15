@@ -17,6 +17,6 @@ class Gejala extends Model
 
     public function penyakits()
     {
-        return $this->belongsToMany(Penyakit::class)->withPivot('value_cf');
+        return $this->hasMany(RulePenyakit::class, 'gejala_id', 'id');
     }
 }

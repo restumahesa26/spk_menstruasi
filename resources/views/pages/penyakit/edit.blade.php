@@ -117,25 +117,24 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="pencegahan">Penyebab</label>
-                            <textarea name="pencegahan" class="form-control @error('pencegahan') is-invalid @enderror" id="pencegahan" cols="30" rows="10" placeholder="Masukkan Penyebab" required>{{ old('pencegahan') }}</textarea>
-                            @error('pencegahan')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                        <div class="form-group">
                             <label for="pengobatan">Pengobatan</label>
-                            <textarea name="pengobatan" class="form-control @error('pengobatan') is-invalid @enderror" id="pengobatan" cols="30" rows="10" placeholder="Masukkan Pengobatan" required>{{ old('pengobatan') }}</textarea>
+                            <textarea name="pengobatan" class="form-control @error('pengobatan') is-invalid @enderror" id="pengobatan" cols="30" rows="10" placeholder="Masukkan Pengobatan" required>{{ old('pengobatan', $item->pengobatan) }}</textarea>
                             @error('pengobatan')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
                         </div>
-                    </div>
-                        <a href="{{ route('gejala.index') }}" class="btn btn-secondary">Kembali</a>
+                        <div class="form-group">
+                            <label for="pencegahan">Pencegahan</label>
+                            <textarea name="pencegahan" class="form-control @error('pencegahan') is-invalid @enderror" id="pencegahan" cols="30" rows="10" placeholder="Masukkan Pencegahan" required>{{ old('pencegahan', $item->pencegahan) }}</textarea>
+                            @error('pencegahan')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                        <a href="{{ route('penyakit.index') }}" class="btn btn-secondary">Kembali</a>
                         <button type="submit" class="btn btn-primary">Simpan</button>
                     </form>
                 </div>
@@ -145,3 +144,11 @@
     @include('includes.footer')
 </div>
 @endsection
+
+@push('addon-script')
+    <script src="{{ url('ckeditor/ckeditor.js') }}"></script>
+    <script>
+        CKEDITOR.replace('pengobatan');
+        CKEDITOR.replace('pencegahan');
+    </script>
+@endpush

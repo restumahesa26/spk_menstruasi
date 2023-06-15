@@ -24,7 +24,7 @@
         <nav class="navbar navbar-top navbar-horizontal navbar-expand-md navbar-dark">
             <div class="container px-4">
                 <a class="navbar-brand" href="{{ route('login') }}">
-                    <img src="{{ url('backend/assets/img/brand/white.png') }}" />
+                    <img src="{{ url('logo-2.png') }}" />
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse-main"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -109,7 +109,7 @@
                                     </div>
                                 </div>
                                 <div class="custom-control custom-control-alternative custom-checkbox">
-                                    <input class="custom-control-input" id=" customCheckLogin" type="checkbox" name="remember_me">
+                                    <input class="custom-control-input" id=" customCheckLogin" type="checkbox" name="remember">
                                     <label class="custom-control-label" for=" customCheckLogin">
                                         <span class="text-muted">Remember me</span>
                                     </label>

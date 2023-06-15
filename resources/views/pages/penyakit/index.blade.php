@@ -84,7 +84,7 @@
 </div>
 <div class="modal fade" id="modalTambah" tabindex="-1" role="dialog" aria-labelledby="modalTambahLabel"
     aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modalTambahLabel">Tambah Data Penyakit</h5>
@@ -183,11 +183,13 @@
                                             </td>
                                             <td>
                                                 <a href="{{ route('penyakit.edit', $item->id) }}" class="btn btn-sm btn-primary"><i class="fa fa-pencil-alt"></i></a>
+                                                @if ($item->rule_count < 1)
                                                 <form action="{{ route('penyakit.destroy', $item->id) }}" method="POST" class="d-inline">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-sm btn-danger btn-hapus"><i class="fa fa-trash-alt"></i></button>
                                                 </form>
+                                                @endif
                                             </td>
                                         </tr>
                                         @empty
@@ -231,5 +233,31 @@
                 }
             });
         });
+    </script>
+@endpush
+
+@if ($items->count() > 0)
+@push('addon-style')
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+@endpush
+
+@push('addon-script')
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#table').DataTable({
+            "orderable": false
+        });
+    });
+</script>
+@endpush
+@endif
+
+@push('addon-script')
+    <script src="{{ url('ckeditor/ckeditor.js') }}"></script>
+    <script>
+        CKEDITOR.replace('pengobatan');
+        CKEDITOR.replace('pencegahan');
     </script>
 @endpush

@@ -118,8 +118,9 @@
                                         <thead class="thead-light">
                                             <tr>
                                                 <th>No</th>
-                                                <th style="width: 60% !important;">Gejala</th>
-                                                <th>Nilai CF</th>
+                                                <th style="width: 45% !important;">Gejala</th>
+                                                <th>Nilai MB</th>
+                                                <th>Nilai MD</th>
                                                 <th>Status</th>
                                             </tr>
                                         </thead>
@@ -131,15 +132,21 @@
                                                     {{ $rows }}
                                                 </th>
                                                 <td>
-                                                    {{ $item->nama }}
+                                                    {{ $item->gejala->nama }}
                                                 </td>
                                                 <td>
-                                                    <input type="number" step="0.2" class="form-control form-control-sm" name="gejala-{{ $item->id }}" value="{{ $item->pivot->value_cf }}" required min="0">
+                                                    <input type="number" step="0.2" class="form-control form-control-sm" name="nilai_mb[]" value="{{ $item->nilai_mb }}" required min="0" id="nilai-mb-{{ $item->gejala->id }}">
+                                                    {{-- <input type="number" step="0.2" class="form-control form-control-sm" name="gejala-{{ $item->id }}" value="{{ $item->pivot->value_cf }}" required min="0"> --}}
+                                                </td>
+                                                <td>
+                                                    <input type="hidden" name="gejala[]" id="hidden-{{ $item->gejala->id }}" value="{{ $item->gejala->id }}">
+                                                    <input type="number" step="0.2" class="form-control form-control-sm" name="nilai_md[]" value="{{ $item->nilai_md }}" required min="0" id="nilai-md-{{ $item->gejala->id }}">
+                                                    {{-- <input type="number" step="0.2" class="form-control form-control-sm" name="gejala-{{ $item->id }}" value="{{ $item->pivot->value_cf }}" required min="0"> --}}
                                                 </td>
                                                 <td>
                                                     <div class="custom-control custom-switch">
-                                                        <input type="checkbox" class="custom-control-input check" data-id="{{ $item->id }}" id="gejala-{{ $item->id }}" checked>
-                                                        <label class="custom-control-label" for="gejala-{{ $item->id }}">Aktif</label>
+                                                        <input type="checkbox" class="custom-control-input check" data-id="{{ $item->gejala->id }}" id="gejala-{{ $item->gejala->id }}" checked>
+                                                        <label class="custom-control-label" for="gejala-{{ $item->gejala->id }}">Aktif</label>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -158,7 +165,11 @@
                                                     {{ $item->nama }}
                                                 </td>
                                                 <td>
-                                                    <input type="number" step="0.2" class="form-control form-control-sm" name="gejala-{{ $item->id }}" required disabled min="0">
+                                                    <input type="number" step="0.2" class="form-control form-control-sm" id="nilai-mb-{{ $item->id }}" name="nilai_mb[]" required disabled min="0">
+                                                </td>
+                                                <td>
+                                                    <input type="hidden" name="gejala[]" value="{{ $item->id }}" id="hidden-{{ $item->id }}" disabled>
+                                                    <input type="number" step="0.2" class="form-control form-control-sm" id="nilai-md-{{ $item->id }}" name="nilai_md[]" required disabled min="0">
                                                 </td>
                                                 <td>
                                                     <div class="custom-control custom-switch">
@@ -195,10 +206,15 @@
             const id = $(this).data('id')
 
             if(this.checked) {
-                $(`input[name="gejala-${id}"]`).removeAttr('disabled')
+                $(`input[id="nilai-md-${id}"]`).removeAttr('disabled')
+                $(`input[id="nilai-mb-${id}"]`).removeAttr('disabled')
+                $(`input[id="hidden-${id}"]`).removeAttr('disabled')
             } else {
-                $(`input[name="gejala-${id}"]`).attr('disabled', '')
-                $(`input[name="gejala-${id}"]`).val('')
+                $(`input[id="nilai-md-${id}"]`).attr('disabled', '')
+                $(`input[id="nilai-md-${id}"]`).val('')
+                $(`input[id="nilai-mb-${id}"]`).attr('disabled', '')
+                $(`input[id="nilai-mb-${id}"]`).val('')
+                $(`input[id="hidden-${id}"]`).attr('disabled', '')
             }
         })
     </script>

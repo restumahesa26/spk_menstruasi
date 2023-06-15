@@ -37,6 +37,12 @@ class DiagnosaController extends Controller
             case -0.4:
                 return 'Mungkin tidak';
                 break;
+            case -0.2:
+                return 'Tidak tahu';
+                break;
+            case 0.2:
+                return 'Tidak tahu';
+                break;
             case 0.4:
                 return 'Mungkin';
                 break;
@@ -62,10 +68,10 @@ class DiagnosaController extends Controller
                 $gejala = Gejala::with('penyakits')->find($opts[0]);
 
                 foreach($gejala->penyakits as $penyakit) {
-                    if(empty($data_penyakit[$penyakit->id])){
-                        $data_penyakit[$penyakit->id] = [$penyakit, [$gejala, $opts[1], $penyakit->pivot->value_cf]];
+                    if(empty($data_penyakit[$penyakit->penyakit_id])){
+                        $data_penyakit[$penyakit->penyakit_id] = [$penyakit->penyakit, [$gejala, $opts[1], $penyakit->nilai_cf]];
                     } else {
-                        array_push($data_penyakit[$penyakit->id], [$gejala, $opts[1], $penyakit->pivot->value_cf]);
+                        array_push($data_penyakit[$penyakit->penyakit_id], [$gejala, $opts[1], $penyakit->nilai_cf]);
                     }
 
                     if(empty($gejala_terpilih[$gejala->id])) {
@@ -178,9 +184,9 @@ class DiagnosaController extends Controller
 
     public function diagnosa(Request $request)
     {
-        $name = Auth::user()->nama;
-
-        if(Auth::user()->role == 'admin' || Auth::user()->role == 'dokter') {
+        if(Auth::user()->role == 'pengguna') {
+            $name = Auth::user()->nama;
+        }else {
             $request->validate(['nama' => 'required|string|max:100']);
             $name = $request->nama;
         }
@@ -195,6 +201,7 @@ class DiagnosaController extends Controller
 
         $riwayat = RiwayatDiagnosa::create([
             'nama' => $name,
+            'usia' => $request->usia,
             'hasil_diagnosa' => serialize($result['hasil_diagnosa']),
             'cf_max' => serialize($result['cf_max']),
             'gejala_terpilih' => serialize($result['gejala_terpilih']),
