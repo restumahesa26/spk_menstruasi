@@ -43,7 +43,7 @@
             </a>
         </li>
     </ul>
-    @if (Auth::user()->role == 'admin' || Auth::user()->role == 'dokter')
+    @if (Auth::user()->role == 'admin')
     <!-- Divider -->
     <hr class="my-3">
     <!-- Heading -->
@@ -66,8 +66,6 @@
                 <i class="fa fa-newspaper text-primary"></i> Artikel
             </a>
         </li>
-        @endif
-        @if (Auth::user()->role == 'dokter')
         <li class="nav-item @if(Route::is('rule-*')) active @endif">
             <a class="nav-link @if(Route::is('rule-*')) active @endif" href="{{ route('rule-penyakit.index') }}">
                 <i class="fa fa-sitemap text-primary"></i> Rule Penyakit

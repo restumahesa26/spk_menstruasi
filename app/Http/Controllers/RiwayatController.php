@@ -11,7 +11,7 @@ class RiwayatController extends Controller
 {
     public function index()
     {
-        if(Auth::user()->role == 'admin') {
+        if(Auth::user()->role == 'admin' || Auth::user()->role == 'dokter') {
             $items = RiwayatDiagnosa::with('penyakit')->latest()->get();
         } else {
             $items = RiwayatDiagnosa::with('penyakit')->where('user_id', Auth::user()->id)->latest()->get();
