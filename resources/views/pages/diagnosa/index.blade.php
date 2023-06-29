@@ -118,21 +118,21 @@
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-12">
-                            <form action="{{ route('diagnosa.store') }}" method="post">
+                            <form action="{{ route('diagnosa.store') }}" method="post" id="form-diagnosa">
                                 @csrf
                                 <div class="row">
                                     @if (Auth::user()->role == 'admin' || Auth::user()->role == 'dokter')
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for=""><b><i class="fas fa-user mr-1"></i> Nama</b></label>
-                                            <input type="text" class="form-control mb-3 w-75" name="nama" required>
+                                            <input type="text" class="form-control mb-3 w-75" name="nama" required id="nama">
                                         </div>
                                     </div>
                                     @endif
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for=""><b><i class="fas fa-address-card mr-1"></i> Usia</b></label>
-                                            <input type="number" class="form-control mb-3 w-75" name="usia" required>
+                                            <input type="number" class="form-control mb-3 w-75" name="usia" required id="usia">
                                         </div>
                                     </div>
                                 </div>
@@ -150,8 +150,8 @@
                                         <div class="col-md-8">
                                             <span>{{ $value->nama }}</span>
                                         </div>
-                                        <div class="col-md-4">
-                                            <select name="diagnosa[]" id=""
+                                        <div class="col-md-4" id="aa">
+                                            <select name="diagnosa[]" id="gejala"
                                             class="form-control form-control-sm red-border font-weight-bold text-body">
                                             <option value="" selected>Tidak</option>
                                             <option value="{{ $value->id }}+0.2">Tidak Tahu</option>
@@ -159,15 +159,6 @@
                                             <option value="{{ $value->id }}+0.6">Kemungkinan Besar</option>
                                             <option value="{{ $value->id }}+0.8">Hampir pasti</option>
                                             <option value="{{ $value->id }}+1">Pasti</option>
-                                            {{-- <option value="{{ $value->id }}+-1">Pasti tidak</option>
-                                            <option value="{{ $value->id }}+-0.8">Hampir pasti tidak</option>
-                                            <option value="{{ $value->id }}+-0.6">Kemungkinan besar tidak</option>
-                                            <option value="{{ $value->id }}+-0.4">Mungkin tidak</option>
-                                            <option value="" selected>Tidak tahu</option>
-                                            <option value="{{ $value->id }}+0.4">Mungkin</option>
-                                            <option value="{{ $value->id }}+0.6">Sangat mungkin</option>
-                                            <option value="{{ $value->id }}+0.8">Hampir pasti</option>
-                                            <option value="{{ $value->id }}+1">Pasti</option> --}}
                                         </select>
                                         </div>
                                     </div>
@@ -207,11 +198,46 @@
 </style>
 @endpush
 @push('addon-script')
+@if (Auth::user()->role == 'pengguna')
 <script>
-    $('button[type="submit"]').click(function() {
-        $(this).attr('disabled')
-    })
-
+    $('button[type="submit"]').click(function(e) {
+        e.preventDefault();
+        var gejala = $('#form-diagnosa').find('select option[value!=""]:selected').length;
+        var usia = $('#usia').val();
+        if (usia != '') {
+            if (gejala >= 3) {
+                $('#form-diagnosa').submit();
+                $(this).attr('disabled')
+            } else {
+                alert('Harap Isi Usia');
+            }
+        }else {
+            alert('Harap Isi Minimal 3 Gejala');
+        }
+    });
+</script>
+@endif
+@if (Auth::user()->role != 'pengguna')
+<script>
+    $('button[type="submit"]').click(function(e) {
+        e.preventDefault();
+        var gejala = $('#form-diagnosa').find('select option[value!=""]:selected').length;
+        var nama = $('#nama').val();
+        var usia = $('#usia').val();
+        if (nama != '' && usia != '') {
+            if (gejala >= 3) {
+                $('#form-diagnosa').submit();
+                $(this).attr('disabled')
+            } else {
+                alert('Harap Isi Minimal 3 Gejala');
+            }
+        }else {
+            alert('Harap Isi Nama dan Usia');
+        }
+    });
+</script>
+@endif
+<script>
     $('select[name="diagnosa[]"]').on('change', function() {
         if(this.value == "") {
             $(this).attr('class', 'form-control form-control-sm red-border')

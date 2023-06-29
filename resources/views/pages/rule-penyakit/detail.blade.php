@@ -21,8 +21,8 @@
                         </div>
                         <div class="modal-body">
                             <ol>
-                                @forelse (App\Helpers\Helper::penyakit() as $penyakit)
-                                    <li>{{ $penyakit->nama }}</li>
+                                @forelse (App\Helpers\Helper::penyakit() as $penyakits)
+                                    <li>{{ $penyakits->nama }}</li>
                                 @empty
 
                                 @endforelse
@@ -140,7 +140,7 @@
                                         <thead class="thead-light">
                                             <tr>
                                                 <th>No</th>
-                                                <th style="width: 45% !important;">Gejala</th>
+                                                <th style="width: 40% !important;">Gejala</th>
                                                 <th>Nilai MB</th>
                                                 <th>Nilai MD</th>
                                                 <th>Status</th>
@@ -157,12 +157,12 @@
                                                     {{ $item->gejala->nama }}
                                                 </td>
                                                 <td>
-                                                    <input type="number" step="0.2" class="form-control form-control-sm" name="nilai_mb[]" value="{{ $item->nilai_mb }}" required min="0" id="nilai-mb-{{ $item->gejala->id }}">
+                                                    <input type="number" step="0.2" class="form-control form-control-sm" name="nilai_mb[]" value="{{ $item->nilai_mb }}" required id="nilai-mb-{{ $item->gejala->id }}" max="1" min="0">
                                                     {{-- <input type="number" step="0.2" class="form-control form-control-sm" name="gejala-{{ $item->id }}" value="{{ $item->pivot->value_cf }}" required min="0"> --}}
                                                 </td>
                                                 <td>
                                                     <input type="hidden" name="gejala[]" id="hidden-{{ $item->gejala->id }}" value="{{ $item->gejala->id }}">
-                                                    <input type="number" step="0.2" class="form-control form-control-sm" name="nilai_md[]" value="{{ $item->nilai_md }}" required min="0" id="nilai-md-{{ $item->gejala->id }}">
+                                                    <input type="number" step="0.2" class="form-control form-control-sm" name="nilai_md[]" value="{{ $item->nilai_md }}" required id="nilai-md-{{ $item->gejala->id }}" max="1" min="0">
                                                     {{-- <input type="number" step="0.2" class="form-control form-control-sm" name="gejala-{{ $item->id }}" value="{{ $item->pivot->value_cf }}" required min="0"> --}}
                                                 </td>
                                                 <td>
@@ -187,11 +187,11 @@
                                                     {{ $item->nama }}
                                                 </td>
                                                 <td>
-                                                    <input type="number" step="0.2" class="form-control form-control-sm" id="nilai-mb-{{ $item->id }}" name="nilai_mb[]" required disabled min="0">
+                                                    <input type="number" step="0.2" class="form-control form-control-sm" id="nilai-mb-{{ $item->id }}" name="nilai_mb[]" required disabled min="0" max="1">
                                                 </td>
                                                 <td>
                                                     <input type="hidden" name="gejala[]" value="{{ $item->id }}" id="hidden-{{ $item->id }}" disabled>
-                                                    <input type="number" step="0.2" class="form-control form-control-sm" id="nilai-md-{{ $item->id }}" name="nilai_md[]" required disabled min="0">
+                                                    <input type="number" step="0.2" class="form-control form-control-sm" id="nilai-md-{{ $item->id }}" name="nilai_md[]" required disabled min="0" max="1">
                                                 </td>
                                                 <td>
                                                     <div class="custom-control custom-switch">
