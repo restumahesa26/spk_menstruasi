@@ -12,7 +12,7 @@ class RiwayatDiagnosa extends Model
     public $table = 'riwayat_diagnosa';
 
     public $fillable = [
-        'nama', 'hasil_diagnosa', 'cf_max', 'gejala_terpilih', 'file_pdf', 'user_id', 'usia'
+        'nama', 'hasil_diagnosa', 'cf_max', 'gejala_terpilih', 'file_pdf', 'user_id'
     ];
 
     public function penyakit()

@@ -25,11 +25,11 @@ class DiagnosaController extends Controller
     public function tingkat_keyakinan($keyakinan)
     {
         switch ($keyakinan) {
-            case -0.8:
-                return 'Hampir pasti tidak';
-                break;
             case -1:
                 return 'Pasti tidak';
+                break;
+            case -0.8:
+                return 'Hampir pasti tidak';
                 break;
             case -0.6:
                 return 'Kemungkinan besar tidak';
@@ -47,7 +47,7 @@ class DiagnosaController extends Controller
                 return 'Mungkin';
                 break;
             case 0.6:
-                return 'Sangat Mungkin';
+                return 'Kemungkinan Besar';
                 break;
             case 0.8:
                 return 'Hampir pasti';
@@ -147,8 +147,6 @@ class DiagnosaController extends Controller
                     $hasil_cf = null;
                 }
 
-
-
                 if(empty($hasil_diagnosa[$final[0]->id])) {
                     $hasil_diagnosa[$final[0]->id] = [
                         'nama_penyakit' => $final[0]->nama,
@@ -201,7 +199,6 @@ class DiagnosaController extends Controller
 
         $riwayat = RiwayatDiagnosa::create([
             'nama' => $name,
-            'usia' => $request->usia,
             'hasil_diagnosa' => serialize($result['hasil_diagnosa']),
             'cf_max' => serialize($result['cf_max']),
             'gejala_terpilih' => serialize($result['gejala_terpilih']),

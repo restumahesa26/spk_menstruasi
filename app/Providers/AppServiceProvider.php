@@ -6,6 +6,7 @@ use App\Models\Gejala;
 use App\Models\Penyakit;
 use App\Models\RiwayatDiagnosa;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
@@ -44,7 +45,12 @@ class AppServiceProvider extends ServiceProvider
 
         Blade::directive('diagnosa', function ()
         {
-            $diagnosa = RiwayatDiagnosa::count();
+            if (Auth::user()->role == 'pengguna') {
+                $diagnosa = RiwayatDiagnosa::where('user_id', Auth::user()->id)->count();
+            } else {
+                $diagnosa = RiwayatDiagnosa::count();
+            }
+
             return $diagnosa;
         });
     }

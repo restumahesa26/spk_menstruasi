@@ -13,7 +13,11 @@ class DashboardController extends Controller
 {
     public function dashboard()
     {
-        $items = RiwayatDiagnosa::latest()->paginate(6);
+        if(Auth::user()->role == 'admin' || Auth::user()->role == 'dokter') {
+            $items = RiwayatDiagnosa::with('penyakit')->latest()->paginate(10);
+        } else {
+            $items = RiwayatDiagnosa::with('penyakit')->where('user_id', Auth::user()->id)->latest()->get();
+        }
         $items2 = Artikel::all();
 
         return view('pages.dashboard', compact('items', 'items2'));

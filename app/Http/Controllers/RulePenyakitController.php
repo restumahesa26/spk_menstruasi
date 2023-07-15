@@ -44,12 +44,12 @@ class RulePenyakitController extends Controller
     public function show(string $id)
     {
         $data = Penyakit::findOrFail($id);
-        $gejala = Gejala::orderBy('kode', 'ASC')->get();
-        $penyakit = Penyakit::orderBy('kode', 'ASC')->get();
+        $gejalas = Gejala::orderBy('kode', 'ASC')->get();
+        $penyakits = Penyakit::orderBy('kode', 'ASC')->get();
         $gejalaPenyakit = $data->rule();
         $gejalaId = $gejalaPenyakit->pluck('gejala_id')->toArray();
 
-        return view('pages.rule-penyakit.detail', compact('data', 'gejala', 'penyakit', 'gejalaPenyakit', 'gejalaId'));
+        return view('pages.rule-penyakit.detail', compact('data', 'gejalas', 'penyakits', 'gejalaPenyakit', 'gejalaId'));
     }
 
     /**

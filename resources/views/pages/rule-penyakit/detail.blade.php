@@ -5,7 +5,7 @@
 @section('content')
 <!-- Header -->
 @include('sweetalert::alert')
-<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
     <div class="container-fluid">
         <div class="header-body">
             <!-- Card stats -->
@@ -21,8 +21,30 @@
                         </div>
                         <div class="modal-body">
                             <ol>
-                                @forelse (App\Helpers\Helper::penyakit() as $penyakits)
-                                    <li>{{ $penyakits->nama }}</li>
+                                @forelse (App\Helpers\Helper::penyakit() as $penyakit)
+                                    <li>{{ $penyakit->nama }}</li>
+                                @empty
+
+                                @endforelse
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="modalGejala" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Daftar Gejala Pada Menstruasi</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <ol>
+                                @forelse (App\Helpers\Helper::gejala() as $gejala)
+                                    <li>{{ $gejala->nama }}</li>
                                 @empty
 
                                 @endforelse
@@ -38,11 +60,11 @@
                             <div class="row">
                                 <div class="col">
                                     <h5 class="card-title text-uppercase text-muted mb-0">Gejala</h5>
-                                    <span class="h2 font-weight-bold mb-0">@gejala</span>
+                                    <span class="h2 font-weight-bold mb-0"><a href="#" data-toggle="modal" data-target="#modalGejala"><u>@gejala</u></a></span>
                                 </div>
                                 <div class="col-auto">
-                                    <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
-                                        <i class="fa fa-th"></i>
+                                    <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
+                                        <i class="fa fa-th" style="cursor: pointer" data-toggle="modal" data-target="#modalGejala"></i>
                                     </div>
                                 </div>
                             </div>
@@ -91,7 +113,7 @@
                             <div class="row">
                                 <div class="col">
                                     <h5 class="card-title text-uppercase text-muted mb-0">Diagnosa</h5>
-                                    <span class="h2 font-weight-bold mb-0">@diagnosa</span>
+                                    <span class="h2 font-weight-bold mb-0">{{ App\Helpers\Helper::hitungDiagnosa() }}</span>
                                 </div>
                                 <div class="col-auto">
                                     <div class="icon icon-shape bg-info text-white rounded-circle shadow">
@@ -119,7 +141,7 @@
                     <div class="row mt-3">
                         <div class="col-md-4">
                             <ul class="list-group">
-                                @forelse ($penyakit as $item)
+                                @forelse ($penyakits as $item)
                                     <a href="{{ route('rule-penyakit.show', $item->id) }}"><li class="list-group-item @if($data->id == $item->id) active @endif" aria-current="true">{{ $item->nama }}</li></a>
                                 @empty
 
@@ -177,7 +199,7 @@
 
                                             @endforelse
 
-                                            @forelse ($gejala as $item)
+                                            @forelse ($gejalas as $item)
                                             @if (!in_array($item->id, $gejalaId))
                                             <tr>
                                                 <th>

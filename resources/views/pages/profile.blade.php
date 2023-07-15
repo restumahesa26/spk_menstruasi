@@ -5,7 +5,7 @@
 @section('content')
 <!-- Header -->
 @include('sweetalert::alert')
-<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
     <div class="container-fluid">
         <div class="header-body">
             <!-- Card stats -->
@@ -69,7 +69,7 @@
                             <div class="row">
                                 <div class="col">
                                     <h5 class="card-title text-uppercase text-muted mb-0">Diagnosa</h5>
-                                    <span class="h2 font-weight-bold mb-0">@diagnosa</span>
+                                    <span class="h2 font-weight-bold mb-0">{{ App\Helpers\Helper::hitungDiagnosa() }}</span>
                                 </div>
                                 <div class="col-auto">
                                     <div class="icon icon-shape bg-info text-white rounded-circle shadow">
@@ -86,7 +86,7 @@
 </div>
 <div class="container-fluid mt--7">
     <div class="row">
-        <div class="col-md-7">
+        <div class="col-md-12">
             <div class="card shadow">
                 <div class="card-header border-0">
                     <div class="row align-items-center">
@@ -148,59 +148,6 @@
                 </div>
             </div>
         </div>
-        @if (Auth::user()->role == 'pengguna')
-        <div class="col-md-5">
-            <div class="card shadow">
-                <div class="card-header border-0">
-                    <div class="row align-items-center">
-                        <div class="col">
-                            <h3 class="mb-0">Riwayat Penyakit</h3>
-                        </div>
-                    </div>
-                    <form action="{{ route('profile.tambah-riwayat-penyakit') }}" method="post" class="mt-2">
-                        @csrf
-                        <div class="d-flex justify-content-between">
-                            <input type="text" name="penyakit" class="form-control mr-3 @error('penyakit') is-invalid @enderror" id="penyakit" placeholder="Masukkan Nama Penyakit" value="{{ old('penyakit') }}" required>
-                            @error('penyakit')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                            <button type="submit" class="btn btn-primary">Tambah</button>
-                        </div>
-                    </form>
-                    <div class="table-responsive mt-3">
-                        <table class="table table-bordered table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Nama Penyakit</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse ($penyakit as $item)
-                                    <tr>
-                                        <td>{{ $item->penyakit }}</td>
-                                        <td>
-                                            <form action="{{ route('profile.hapus-riwayat-penyakit', $item->id) }}" method="POST" class="d-inline">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-danger btn-hapus"><i class="fa fa-trash-alt"></i></button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr class="text-center">
-                                        <td colspan="2">-- Belum Ada Riwayat Penyakit --</td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        @endif
     </div>
     @include('includes.footer')
 </div>

@@ -5,7 +5,7 @@
 @section('content')
 <!-- Header -->
 @include('sweetalert::alert')
-<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
     <div class="container-fluid">
         <div class="header-body">
             <!-- Card stats -->
@@ -91,7 +91,7 @@
                             <div class="row">
                                 <div class="col">
                                     <h5 class="card-title text-uppercase text-muted mb-0">Diagnosa</h5>
-                                    <span class="h2 font-weight-bold mb-0">@diagnosa</span>
+                                    <span class="h2 font-weight-bold mb-0">{{ App\Helpers\Helper::hitungDiagnosa() }}</span>
                                 </div>
                                 <div class="col-auto">
                                     <div class="icon icon-shape bg-info text-white rounded-circle shadow">
@@ -126,46 +126,6 @@
                         </div>
                     </div>
                 </div>
-                {{-- <div class="table-responsive">
-                    <!-- Projects table -->
-                    <table class="table align-items-center table-flush">
-                        <thead class="thead-light">
-                            <tr>
-                                <th scope="col">No</th>
-                                <th scope="col">Kode</th>
-                                <th scope="col">Nama Penyakit</th>
-                                <th scope="col">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($items as $item)
-                            <tr>
-                                <th scope="row">
-                                    {{ $loop->iteration }}
-                                </th>
-                                <td>
-                                    {{ $item->kode }}
-                                </td>
-                                <td>
-                                    {{ $item->nama }}
-                                </td>
-                                <td>
-                                    <a href="{{ route('penyakit.edit', $item->id) }}" class="btn btn-sm btn-primary"><i class="fa fa-pencil-alt"></i></a>
-                                    <form action="{{ route('penyakit.destroy', $item->id) }}" method="POST" class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger btn-hapus"><i class="fa fa-trash-alt"></i></button>
-                                    </form>
-                                </td>
-                            </tr>
-                            @empty
-                            <tr class="text-center">
-                                <th colspan="4">--- Data Kosong ---</th>
-                            </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div> --}}
             </div>
         </div>
     </div>

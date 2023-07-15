@@ -5,7 +5,7 @@
 @section('content')
 <!-- Header -->
 @include('sweetalert::alert')
-<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
     <div class="container-fluid">
         <div class="header-body">
             <!-- Card stats -->
@@ -31,6 +31,28 @@
                     </div>
                 </div>
             </div>
+            <div class="modal fade" id="modalGejala" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Daftar Gejala Pada Menstruasi</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <ol>
+                                @forelse (App\Helpers\Helper::gejala() as $gejala)
+                                    <li>{{ $gejala->nama }}</li>
+                                @empty
+
+                                @endforelse
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-xl-3 col-lg-6">
                     <div class="card card-stats mb-4 mb-xl-0">
@@ -38,11 +60,11 @@
                             <div class="row">
                                 <div class="col">
                                     <h5 class="card-title text-uppercase text-muted mb-0">Gejala</h5>
-                                    <span class="h2 font-weight-bold mb-0">@gejala</span>
+                                    <span class="h2 font-weight-bold mb-0"><a href="#" data-toggle="modal" data-target="#modalGejala"><u>@gejala</u></a></span>
                                 </div>
                                 <div class="col-auto">
-                                    <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
-                                        <i class="fa fa-th"></i>
+                                    <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
+                                        <i class="fa fa-th" style="cursor: pointer" data-toggle="modal" data-target="#modalGejala"></i>
                                     </div>
                                 </div>
                             </div>
@@ -91,7 +113,7 @@
                             <div class="row">
                                 <div class="col">
                                     <h5 class="card-title text-uppercase text-muted mb-0">Diagnosa</h5>
-                                    <span class="h2 font-weight-bold mb-0">@diagnosa</span>
+                                    <span class="h2 font-weight-bold mb-0">{{ App\Helpers\Helper::hitungDiagnosa() }}</span>
                                 </div>
                                 <div class="col-auto">
                                     <div class="icon icon-shape bg-info text-white rounded-circle shadow">
@@ -144,12 +166,12 @@
                             @foreach(unserialize($item->hasil_diagnosa) as $diagnosa)
                             <div class="card card-body p-0 mt-3 border" style="box-shadow: none !important;">
                                 <div class="card-header bg-primary text-white p-2">
-                                    <h5 class="font-weight-bold">Tabel perhitungan penyakit: {{ $diagnosa['nama_penyakit'] }} ({{ $diagnosa['kode_penyakit'] }})</h5>
+                                    <h5 class="font-weight-bold text-white">Tabel perhitungan penyakit: {{ $diagnosa['nama_penyakit'] }} ({{ $diagnosa['kode_penyakit'] }})</h5>
                                 </div>
                                 <table class="table table-hover">
                                     <thead class="thead-light">
                                         <tr>
-                                            <th>Gejala</th>
+                                            <th style="width: 60%">Gejala</th>
                                             <th>CF User</th>
                                             <th>CF Expert</th>
                                             <th>CF (H, E)</th>
@@ -168,16 +190,19 @@
                                     <tfoot class="font-weight-bold">
                                         <tr>
                                             <td scope="row">Nilai CF</td>
-                                            <td><span class="text-danger">{{ number_format($diagnosa['hasil_cf'], 3) }}</span></td>
+                                            <td colspan="3"><span class="text-danger">{{ number_format($diagnosa['hasil_cf'], 3) }}</span></td>
                                         </tr>
                                     </tfoot>
                                 </table>
                             </div>
                             @endforeach
                             <div class="mt-5">
+                                <div id="chart"></div>
+                            </div>
+                            <div class="mt-5">
                                 <div class="alert alert-success">
-                                    <h5 class="font-weight-bold">Kesimpulan</h5>
-                                    <p>Berdasarkan dari gejala yang kamu pilih atau alami juga berdasarkan Role/Basis aturan yang sudah ditentukan oleh seorang pakar penyakit maka perhitungan Algoritma Certainty Factor mengambil nilai CF yang paling pinggi yakni <b>{{ number_format(unserialize($item->cf_max)[0], 3) }} ({{ number_format(unserialize($item->cf_max)[0], 3) * 100 }}%)</b> yaitu <b>{{ unserialize($item->cf_max)[1] }}</b></p>
+                                    <h4 class="font-weight-bold">Kesimpulan</h4>
+                                    <p class="font-weight-bold">Berdasarkan dari gejala yang kamu pilih atau alami juga berdasarkan Role/Basis aturan yang sudah ditentukan oleh seorang pakar penyakit maka perhitungan Algoritma Certainty Factor mengambil nilai CF yang paling pinggi yakni <b>{{ number_format(unserialize($item->cf_max)[0], 3) }} ({{ number_format(unserialize($item->cf_max)[0], 3) * 100 }}%)</b> yaitu <b>{{ unserialize($item->cf_max)[1] }}</b></p>
                                 </div>
                                 <div class="mt-3 text-center">
                                     <a href="{{ route('diagnosa.index') }}" class="btn btn-warning mr-1"><i class="fas fa-redo mr-1"></i> Diagnosa ulang</a>
@@ -192,3 +217,43 @@
     @include('includes.footer')
 </div>
 @endsection
+
+@push('addon-style')
+    <link href="{{ url('js/c3/c3.css') }}" rel="stylesheet">
+@endpush
+
+@push('addon-script')
+    <script src="{{ url('js/c3/d3.min.js') }}"></script>
+    <script src="{{ url('js/c3/c3.min.js') }}"></script>
+    <script>
+        var data = [];
+    </script>
+    <script>
+        var nama = [];
+        var nilai = [];
+        @forelse (unserialize($item->hasil_diagnosa) as $diagnosa)
+            data.push(["{{ strval($diagnosa['nama_penyakit']) }}", {{ number_format($diagnosa['hasil_cf'], 3) }}]);
+        @empty
+        @endforelse
+    </script>
+    <script>
+        console.log(data);
+        var chart = c3.generate({
+            bindto: "#chart",
+            data: {
+                columns: data,
+                type: "donut"
+            },
+            donut: {
+                title: "Persentase Penyakit",
+                width: 30,
+                label: {
+                    show: !1
+                }
+            },
+            color: {
+                pattern: ["#B01E68", "#F49D1A", '#DC3535', '#80489C', '#432C7A', '#46C2CB']
+            }
+        });
+    </script>
+@endpush

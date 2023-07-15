@@ -5,7 +5,7 @@
 @section('content')
 <!-- Header -->
 @include('sweetalert::alert')
-<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
     <div class="container-fluid">
         <div class="header-body">
             <!-- Card stats -->
@@ -31,6 +31,28 @@
                     </div>
                 </div>
             </div>
+            <div class="modal fade" id="modalGejala" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Daftar Gejala Pada Menstruasi</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <ol>
+                                @forelse (App\Helpers\Helper::gejala() as $gejala)
+                                    <li>{{ $gejala->nama }}</li>
+                                @empty
+
+                                @endforelse
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-xl-3 col-lg-6">
                     <div class="card card-stats mb-4 mb-xl-0">
@@ -38,11 +60,11 @@
                             <div class="row">
                                 <div class="col">
                                     <h5 class="card-title text-uppercase text-muted mb-0">Gejala</h5>
-                                    <span class="h2 font-weight-bold mb-0">@gejala</span>
+                                    <span class="h2 font-weight-bold mb-0"><a href="#" data-toggle="modal" data-target="#modalGejala"><u>@gejala</u></a></span>
                                 </div>
                                 <div class="col-auto">
-                                    <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
-                                        <i class="fa fa-th"></i>
+                                    <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
+                                        <i class="fa fa-th" style="cursor: pointer" data-toggle="modal" data-target="#modalGejala"></i>
                                     </div>
                                 </div>
                             </div>
@@ -91,7 +113,7 @@
                             <div class="row">
                                 <div class="col">
                                     <h5 class="card-title text-uppercase text-muted mb-0">Diagnosa</h5>
-                                    <span class="h2 font-weight-bold mb-0">@diagnosa</span>
+                                    <span class="h2 font-weight-bold mb-0">{{ App\Helpers\Helper::hitungDiagnosa() }}</span>
                                 </div>
                                 <div class="col-auto">
                                     <div class="icon icon-shape bg-info text-white rounded-circle shadow">
@@ -129,12 +151,6 @@
                                         </div>
                                     </div>
                                     @endif
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for=""><b><i class="fas fa-address-card mr-1"></i> Usia</b></label>
-                                            <input type="number" class="form-control mb-3 w-75" name="usia" required id="usia">
-                                        </div>
-                                    </div>
                                 </div>
                             <p class="font-weight-bold">Pilih gejala yang sedang dirasakan.</p>
                             <label for=""><b><i class="fas fa-th mr-1"></i> Gejala-gejala</b></label>
@@ -203,16 +219,11 @@
     $('button[type="submit"]').click(function(e) {
         e.preventDefault();
         var gejala = $('#form-diagnosa').find('select option[value!=""]:selected').length;
-        var usia = $('#usia').val();
-        if (usia != '') {
-            if (gejala >= 3) {
-                $('#form-diagnosa').submit();
-                $(this).attr('disabled')
-            } else {
-                alert('Harap Isi Usia');
-            }
-        }else {
-            alert('Harap Isi Minimal 3 Gejala');
+        if (gejala >= 3) {
+            $('#form-diagnosa').submit();
+            $(this).attr('disabled')
+        } else {
+            alert('Silakan pilih gejala lebih dari sama dengan 3');
         }
     });
 </script>
@@ -223,16 +234,15 @@
         e.preventDefault();
         var gejala = $('#form-diagnosa').find('select option[value!=""]:selected').length;
         var nama = $('#nama').val();
-        var usia = $('#usia').val();
-        if (nama != '' && usia != '') {
+        if (nama != '') {
             if (gejala >= 3) {
                 $('#form-diagnosa').submit();
                 $(this).attr('disabled')
             } else {
-                alert('Harap Isi Minimal 3 Gejala');
+                alert('Silakan pilih gejala lebih dari sama dengan 3');
             }
         }else {
-            alert('Harap Isi Nama dan Usia');
+            alert('Silakan isi nama');
         }
     });
 </script>
