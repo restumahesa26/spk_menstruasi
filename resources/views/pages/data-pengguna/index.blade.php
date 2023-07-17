@@ -225,7 +225,6 @@
                                     <th scope="col">No</th>
                                     <th scope="col">Nama</th>
                                     <th scope="col">Username</th>
-                                    <th scope="col">Riwayat Penyakit</th>
                                     <th scope="col">Email</th>
                                     <th scope="col">Aksi</th>
                                 </tr>
@@ -241,15 +240,6 @@
                                     </td>
                                     <td>
                                         {{ $item->username }}
-                                    </td>
-                                    <td>
-                                        <ul style="padding-left: 16px !important;">
-                                            @forelse ($item->riwayat_penyakits as $item2)
-                                                <li>{{ $item2->penyakit }}</li>
-                                            @empty
-                                                <li>Tidak Ada</li>
-                                            @endforelse
-                                        </ul>
                                     </td>
                                     <td>
                                         {{ $item->email }}

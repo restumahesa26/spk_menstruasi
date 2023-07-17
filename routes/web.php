@@ -46,8 +46,6 @@ Route::middleware(['auth'])
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::post('/profile/tambah-riwayat-penyakit', [ProfileController::class, 'tambah_riwayat_penyakit'])->name('profile.tambah-riwayat-penyakit');
-    Route::delete('/profile/hapus-riwayat-penyakit/{id}', [ProfileController::class, 'hapus_riwayat_penyakit'])->name('profile.hapus-riwayat-penyakit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
