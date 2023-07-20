@@ -33,4 +33,20 @@ class Helper
 
         return $diagnosa;
     }
+
+    public static function getPengobatan($id)
+    {
+        $nama = explode(" ", $id);
+        $item = Penyakit::where('nama', $nama[0])->first();
+
+        return $item->pengobatan;
+    }
+
+    public static function getPencegahan($id)
+    {
+        $nama = explode(" ", $id);
+        $item = Penyakit::where('nama', $nama[0])->first();
+
+        return $item->pencegahan;
+    }
 }

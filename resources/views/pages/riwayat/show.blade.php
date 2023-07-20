@@ -200,6 +200,18 @@
                                 <div id="chart"></div>
                             </div>
                             <div class="mt-5">
+                                <div class="row justify-content-center">
+                                    <div class="col-md-6">
+                                        <h4 class="font-weight-bold">Pencegahan</h4>
+                                        {!! App\Helpers\Helper::getPencegahan(unserialize($item->cf_max)[1]) !!}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h4 class="font-weight-bold">Pengobatan</h4>
+                                        {!! App\Helpers\Helper::getPengobatan(unserialize($item->cf_max)[1]) !!}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-5">
                                 <div class="alert alert-success">
                                     <h4 class="font-weight-bold">Kesimpulan</h4>
                                     <p class="font-weight-bold">Berdasarkan dari gejala yang kamu pilih atau alami juga berdasarkan Role/Basis aturan yang sudah ditentukan oleh seorang pakar penyakit maka perhitungan Algoritma Certainty Factor mengambil nilai CF yang paling pinggi yakni <b>{{ number_format(unserialize($item->cf_max)[0], 3) }} ({{ number_format(unserialize($item->cf_max)[0], 3) * 100 }}%)</b> yaitu <b>{{ unserialize($item->cf_max)[1] }}</b></p>

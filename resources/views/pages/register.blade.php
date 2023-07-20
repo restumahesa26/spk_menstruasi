@@ -53,14 +53,13 @@
             </div>
         </nav>
         <!-- Header -->
-        <div class="header bg-gradient-primary py-7 py-lg-8">
+        <div class="header bg-gradient-danger py-7 py-lg-7">
             <div class="container">
                 <div class="header-body text-center mb-7">
                     <div class="row justify-content-center">
                         <div class="col-lg-5 col-md-6">
-                            <h1 class="text-white">Welcome!</h1>
-                            <p class="text-lead text-light">Use these awesome forms to login or create new account in
-                                your project for free.</p>
+                            <h1 class="text-white">Selamat Datang</h1>
+                            <p class="text-lead text-light">Daftar Akun Untuk Memulai Diagnosa Terhadap Keluhan Penyakit Yang Anda Alami!</p>
                         </div>
                     </div>
                 </div>
@@ -73,7 +72,7 @@
             </div>
         </div>
         <!-- Page content -->
-        <div class="container mt--8 pb-5">
+        <div class="container mt--9 pb-3">
             <!-- Table -->
             <div class="row justify-content-center">
                 <div class="col-lg-6 col-md-8">
@@ -168,27 +167,9 @@
             <div class="row align-items-center justify-content-xl-between">
                 <div class="col-xl-6">
                     <div class="copyright text-center text-xl-left text-muted">
-                        &copy; 2018 <a href="https://www.creative-tim.com" class="font-weight-bold ml-1"
-                            target="_blank">Creative Tim</a>
+                        © 2023 <a href="https://www.instagram.com/joylumbanrajaaa/" class="font-weight-bold ml-1"
+                            target="_blank">Joi Pebrianty Hasian Lumbanraja ( G1A019065 )</a>
                     </div>
-                </div>
-                <div class="col-xl-6">
-                    <ul class="nav nav-footer justify-content-center justify-content-xl-end">
-                        <li class="nav-item">
-                            <a href="https://www.creative-tim.com" class="nav-link" target="_blank">Creative Tim</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="https://www.creative-tim.com/presentation" class="nav-link" target="_blank">About
-                                Us</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="http://blog.creative-tim.com" class="nav-link" target="_blank">Blog</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="https://github.com/creativetimofficial/argon-dashboard/blob/master/LICENSE.md"
-                                class="nav-link" target="_blank">MIT License</a>
-                        </li>
-                    </ul>
                 </div>
             </div>
         </div>
