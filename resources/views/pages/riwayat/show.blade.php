@@ -163,10 +163,10 @@
                                 </tbody>
                             </table>
 
-                            @foreach(unserialize($item->hasil_diagnosa) as $diagnosa)
+                            @foreach($hasil as $diagnosa)
                             <div class="card card-body p-0 mt-3 border" style="box-shadow: none !important;">
                                 <div class="card-header bg-primary text-white p-2">
-                                    <h5 class="font-weight-bold text-white">Tabel perhitungan penyakit: {{ $diagnosa['nama_penyakit'] }} ({{ $diagnosa['kode_penyakit'] }})</h5>
+                                    <h5 class="font-weight-bold text-white">Prediksi Hasil Perhitungan : {{ $diagnosa['nama_penyakit'] }} ({{ $diagnosa['kode_penyakit'] }})</h5>
                                 </div>
                                 <table class="table table-hover">
                                     <thead class="thead-light">
@@ -200,24 +200,32 @@
                                 <div id="chart"></div>
                             </div>
                             <div class="mt-5">
-                                <div class="row justify-content-center">
-                                    <div class="col-md-6">
-                                        <h4 class="font-weight-bold">Pencegahan</h4>
-                                        {!! App\Helpers\Helper::getPencegahan(unserialize($item->cf_max)[1]) !!}
-                                    </div>
-                                    <div class="col-md-6">
-                                        <h4 class="font-weight-bold">Pengobatan</h4>
-                                        {!! App\Helpers\Helper::getPengobatan(unserialize($item->cf_max)[1]) !!}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mt-5">
                                 <div class="alert alert-success">
                                     <h4 class="font-weight-bold">Kesimpulan</h4>
                                     <p class="font-weight-bold">Berdasarkan dari gejala yang kamu pilih atau alami juga berdasarkan Role/Basis aturan yang sudah ditentukan oleh seorang pakar penyakit maka perhitungan Algoritma Certainty Factor mengambil nilai CF yang paling pinggi yakni <b>{{ number_format(unserialize($item->cf_max)[0], 3) }} ({{ number_format(unserialize($item->cf_max)[0], 3) * 100 }}%)</b> yaitu <b>{{ unserialize($item->cf_max)[1] }}</b></p>
                                 </div>
                                 <div class="mt-3 text-center">
                                     <a href="{{ route('diagnosa.index') }}" class="btn btn-warning mr-1"><i class="fas fa-redo mr-1"></i> Diagnosa ulang</a>
+                                </div>
+                            </div>
+                            <div class="mt-5">
+                                <div class="row justify-content-center">
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h4 class="font-weight-bold">Pencegahan</h4>
+                                                {!! App\Helpers\Helper::getPencegahan(unserialize($item->cf_max)[1]) !!}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h4 class="font-weight-bold">Pengobatan</h4>
+                                                {!! App\Helpers\Helper::getPengobatan(unserialize($item->cf_max)[1]) !!}
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -243,7 +251,7 @@
     <script>
         var nama = [];
         var nilai = [];
-        @forelse (unserialize($item->hasil_diagnosa) as $diagnosa)
+        @forelse ($hasil as $diagnosa)
             data.push(["{{ strval($diagnosa['nama_penyakit']) }}", {{ number_format($diagnosa['hasil_cf'], 3) }}]);
         @empty
         @endforelse

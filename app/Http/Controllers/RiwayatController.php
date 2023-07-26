@@ -9,6 +9,12 @@ use Illuminate\Support\Facades\Auth;
 
 class RiwayatController extends Controller
 {
+    function sort_array_by_key($array, $sort_key){
+        $key_array = array_column($array, $sort_key);
+        array_multisort($key_array, SORT_DESC, $array); //or SORT_ASC
+        return $array;
+    }
+
     public function index()
     {
         if(Auth::user()->role == 'admin' || Auth::user()->role == 'dokter') {
@@ -24,6 +30,10 @@ class RiwayatController extends Controller
     {
         $item = RiwayatDiagnosa::findOrFail($id);
 
-        return view('pages.riwayat.show', compact('item'));
+        $array = array_values(unserialize($item->hasil_diagnosa));
+        $sort = $this->sort_array_by_key($array, 'hasil_cf');
+        $hasil = array_splice($sort, 0, 3);
+
+        return view('pages.riwayat.show', compact('item', 'hasil'));
     }
 }
