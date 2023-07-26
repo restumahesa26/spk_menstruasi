@@ -239,12 +239,12 @@
 @endsection
 
 @push('addon-style')
-    <link href="{{ url('js/c3/c3.css') }}" rel="stylesheet">
+    <link href="{{ url('vendor/c3/c3.css') }}" rel="stylesheet">
 @endpush
 
 @push('addon-script')
-    <script src="{{ url('js/c3/d3.min.js') }}"></script>
-    <script src="{{ url('js/c3/c3.min.js') }}"></script>
+    <script src="{{ url('vendor/c3/d3.min.js') }}"></script>
+    <script src="{{ url('vendor/c3/c3.min.js') }}"></script>
     <script>
         var data = [];
     </script>
