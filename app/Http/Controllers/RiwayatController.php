@@ -36,4 +36,15 @@ class RiwayatController extends Controller
 
         return view('pages.riwayat.show', compact('item', 'hasil'));
     }
+
+    public function pdf($id)
+    {
+        $item = RiwayatDiagnosa::findOrFail($id);
+
+        $array = array_values(unserialize($item->hasil_diagnosa));
+        $sort = $this->sort_array_by_key($array, 'hasil_cf');
+        $hasil = array_splice($sort, 0, 3);
+
+        return view('pages.pdf.riwayat', compact('item', 'hasil'));
+    }
 }

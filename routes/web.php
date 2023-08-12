@@ -42,6 +42,7 @@ Route::middleware(['auth'])
         Route::post('/diagnosa/store', [DiagnosaController::class, 'diagnosa'])->name('diagnosa.store');
         Route::get('/riwayat-diagnosa', [RiwayatController::class, 'index'])->name('riwayat-diagnosa.index');
         Route::get('/riwayat-diagnosa/show/{id}', [RiwayatController::class, 'show'])->name('riwayat-diagnosa.show');
+        Route::get('/riwayat-diagnosa/pdf/{id}', [RiwayatController::class, 'pdf'])->name('riwayat-diagnosa.pdf');
     });
 
 Route::middleware('auth')->group(function () {

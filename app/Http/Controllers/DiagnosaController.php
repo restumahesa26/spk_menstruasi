@@ -205,20 +205,20 @@ class DiagnosaController extends Controller
             'user_id' => auth()->id()
         ]);
 
-        $path = public_path('storage/downloads');
+        // $path = public_path('storage/downloads');
 
-        if(!File::isDirectory($path)){
-            File::makeDirectory($path, 0777, true, true);
-        }
+        // if(!File::isDirectory($path)){
+        //     File::makeDirectory($path, 0777, true, true);
+        // }
 
-        $file_pdf = 'Diagnosa-'.$name.'-'.time().'.pdf';
+        // $file_pdf = 'Diagnosa-'.$name.'-'.time().'.pdf';
 
-        $id = ['id' => $riwayat->id];
+        // $id = ['id' => $riwayat->id];
 
-        $pdf = FacadePdf::loadView('pages.pdf.riwayat', $id);
-        $pdf->save($path . '/' . $file_pdf);
+        // $pdf = FacadePdf::loadView('pages.pdf.riwayat', $id);
+        // $pdf->save($path . '/' . $file_pdf);
 
-        $riwayat->update(['file_pdf' => $file_pdf]);
+        // $riwayat->update(['file_pdf' => $file_pdf]);
 
         return redirect()->route('riwayat-diagnosa.show', $riwayat->id);
     }

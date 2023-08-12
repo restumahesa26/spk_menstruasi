@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('penyakit', function (Blueprint $table) {
             $table->id();
-            $table->string('kode');
-            $table->string('nama');
+            $table->string('kode', 5);
+            $table->string('nama', 30);
             $table->text('pengobatan')->nullable();
             $table->text('pencegahan')->nullable();
             $table->timestamps();

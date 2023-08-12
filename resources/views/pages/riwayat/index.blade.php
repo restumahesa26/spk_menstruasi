@@ -144,9 +144,7 @@
                             <thead class="thead-light">
                                 <tr>
                                     <th scope="col">No</th>
-                                    @if (Auth::user()->role == 'admin')
                                     <th scope="col">Nama</th>
-                                    @endif
                                     <th scope="col">Penyakit Terdiagnosa</th>
                                     <th scope="col">Tanggal</th>
                                     <th scope="col">Aksi</th>
@@ -158,9 +156,7 @@
                                     <th scope="row">
                                         {{ $loop->iteration }}
                                     </th>
-                                    @if (Auth::user()->role == 'admin')
-                                        <td>{{ $item->nama }}</td>
-                                    @endif
+                                    <td>{{ $item->nama }}</td>
                                     <td>
                                         {{ unserialize($item->cf_max)[1] }} <b>(<span class="text-danger">{{ number_format(unserialize($item->cf_max)[0] * 100, 2) }}%</span>)</b>
                                     </td>
@@ -168,7 +164,7 @@
                                         {{ \Carbon\Carbon::parse($item->created_at)->translatedFormat('d F Y') }}
                                     </td>
                                     <td>
-                                        <a href="{{ asset("storage/downloads/$item->file_pdf") }}" target="_blank" class="btn btn-primary btn-sm">
+                                        <a href="{{ route('riwayat-diagnosa.pdf', $item->id) }}" target="_blank" class="btn btn-primary btn-sm">
                                             <i class="fa fa-print"></i>
                                         </a>
                                         <a href="{{ route('riwayat-diagnosa.show', $item->id) }}" class="btn btn-info btn-sm">
