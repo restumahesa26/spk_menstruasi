@@ -37,7 +37,10 @@ class Helper
     public static function getPengobatan($id)
     {
         $nama = explode(" ", $id);
-        $item = Penyakit::where('nama', $nama[0])->first();
+        $end = end($nama);
+        $split = str_replace('(', '', $end);
+        $split2 = str_replace(')', '', $split);
+        $item = Penyakit::where('kode', $split2)->first();
 
         return $item->pengobatan;
     }
@@ -45,7 +48,10 @@ class Helper
     public static function getPencegahan($id)
     {
         $nama = explode(" ", $id);
-        $item = Penyakit::where('nama', $nama[0])->first();
+        $end = end($nama);
+        $split = str_replace('(', '', $end);
+        $split2 = str_replace(')', '', $split);
+        $item = Penyakit::where('kode', $split2)->first();
 
         return $item->pencegahan;
     }

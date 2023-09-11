@@ -197,7 +197,7 @@
                             </div>
                             @endforeach
                             <div class="mt-5">
-                                <div id="chart"></div>
+                                <canvas id="chart"></canvas>
                             </div>
                             <div class="mt-5">
                                 <div class="alert alert-success">
@@ -239,12 +239,11 @@
 @endsection
 
 @push('addon-style')
-    <link href="{{ url('vendor/c3/c3.css') }}" rel="stylesheet">
+
 @endpush
 
 @push('addon-script')
-    <script src="{{ url('vendor/c3/d3.min.js') }}"></script>
-    <script src="{{ url('vendor/c3/c3.min.js') }}"></script>
+    <script src="{{ url('js/Chart.js') }}"></script>
     <script>
         var data = [];
     </script>
@@ -252,28 +251,69 @@
         var nama = [];
         var nilai = [];
         @forelse ($hasil as $diagnosa)
-            data.push(["{{ strval($diagnosa['nama_penyakit']) }}", {{ number_format($diagnosa['hasil_cf'], 3) }}]);
+            // data.push(["{{ strval($diagnosa['nama_penyakit']) }}", {{ number_format($diagnosa['hasil_cf'], 3) }}]);
+            nama.push("{{ strval($diagnosa['nama_penyakit']) }}")
+            nilai.push("{{ number_format($diagnosa['hasil_cf'], 3) }}")
         @empty
         @endforelse
     </script>
     <script>
-        console.log(data);
-        var chart = c3.generate({
-            bindto: "#chart",
+        console.log(nilai);
+        console.log(nama);
+        var canvas = document.getElementById("chart");
+        var ctx = canvas.getContext("2d");
+        var myNewChart = new Chart(ctx, {
+            type: "bar",
             data: {
-                columns: data,
-                type: "donut"
+                labels: nama,
+                datasets : [
+                    {
+                        label: "Hasil Prediksi Penyakit",
+                        data: nilai,
+                        borderColor: ["#EF6262", '#1D5B79', '#468B97', '#F3AA60', '#FD8D14', '#FFE17B', '#EA1179', '#75C2F6', '#0B666A', '#35A29F', '#6528F7', '#A076F9'],
+                        backgroundColor: ["#EF6262", '#1D5B79', '#468B97', '#F3AA60', '#FD8D14', '#FFE17B', '#EA1179', '#75C2F6', '#0B666A', '#35A29F', '#6528F7', '#A076F9'],
+                    },
+                ]
             },
-            donut: {
-                title: "Persentase Penyakit",
-                width: 30,
-                label: {
-                    show: !1
+            options: {
+                indexAxis: 'y',
+                elements: {
+                    bar: {
+                        borderWidth: 2,
+                    }
+                },
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Chart.js Horizontal Bar Chart'
+                    }
+                },
+                scales: {
+                    yAxes: [{
+                        display: true,
+                        ticks: {
+                            suggestedMin: 0,    // minimum will be 0, unless there is a lower value.
+                            // OR //
+                            beginAtZero: true,  // minimum value will be 0.
+                            stepSize: 1
+                        }
+                    }],
+                    xAxes: [{
+                        display: true,
+                        ticks: {
+                            suggestedMin: 0,    // minimum will be 0, unless there is a lower value.
+                            // OR //
+                            beginAtZero: true,  // minimum value will be 0.
+                            stepSize: 1
+                        }
+                    }]
                 }
             },
-            color: {
-                pattern: ["#B01E68", "#F49D1A", '#DC3535', '#80489C', '#432C7A', '#46C2CB']
-            }
         });
+
     </script>
 @endpush
