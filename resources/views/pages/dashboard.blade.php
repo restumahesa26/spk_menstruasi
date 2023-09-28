@@ -128,6 +128,7 @@
 </div>
     <div class="container-fluid mt--7">
         <div class="row">
+            @if (Auth::user()->role != 'admin')
             <div class="col-xl-8 mb-5 mb-xl-0">
                 <div class="card shadow">
                     <div class="card-header border-0">
@@ -178,7 +179,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-4">
+            @endif
+            <div class="@if(Auth::user()->role != 'admin') col-xl-4 @else col-xl-7 @endif">
                 <div class="card shadow">
                     <div class="card-header border-0">
                         <div class="row align-items-center">

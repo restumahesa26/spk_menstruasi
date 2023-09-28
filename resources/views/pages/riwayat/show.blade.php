@@ -197,7 +197,11 @@
                             </div>
                             @endforeach
                             <div class="mt-5">
-                                <canvas id="chart"></canvas>
+                                <div class="row justify-content-center">
+                                    <div class="col-md-8">
+                                        <canvas id="chart"></canvas>
+                                    </div>
+                                </div>
                             </div>
                             <div class="mt-5">
                                 <div class="alert alert-success">
@@ -261,6 +265,7 @@
         console.log(nilai);
         console.log(nama);
         var canvas = document.getElementById("chart");
+        canvas.height = 150;
         var ctx = canvas.getContext("2d");
         var myNewChart = new Chart(ctx, {
             type: "bar",
